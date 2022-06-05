@@ -135,7 +135,7 @@ fn do_test<'a>(test: Test<'a>) {
                 throughput_tester,
             ),
             TestKind::ThroughputBytes => (
-                "Max. Throughput (bytes/sec.)",
+                "Max. Throughput (KB/sec.)",
                 r"Net I/O: (\S+) ",
                 throughput_tester,
             ),
