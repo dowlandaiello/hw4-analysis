@@ -19,6 +19,9 @@ const BENCH_CMD: &'static str = "httperf";
 /// Idk this shouldn't be hardcoded but whatever
 const OUT_FILE: &'static str = "out.png";
 
+/// The number of times the tester should re-run a route for consistency
+const SAMPLES: usize = 10;
+
 /// A script that starts successive httperf instances with varying query sizes,
 /// where the address of the server is the first cli arg, the port of the
 /// server the second, and the dictionary of query words are the last arguments.
@@ -71,6 +74,8 @@ fn main() {
             .arg(port.to_string())
             .arg("--uri")
             .arg(query_url)
+            .arg("--num-calls")
+            .arg(SAMPLES.to_string())
             .output()
             .expect("Failed to execute test.");
 
@@ -112,7 +117,7 @@ fn main() {
 
     plt.draw_series(LineSeries::new(buf, &colors::RED))
         .expect("Couldn't draw series.")
-        .label("Average Response Time")
+        .label(format!("Average Response Time (ms) n={SAMPLES}"))
         .legend(|(x, y)| PathElement::new(vec![(x, y), (x + 20, y)], &colors::RED));
 
     plt.configure_series_labels()
